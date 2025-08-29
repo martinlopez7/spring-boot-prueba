@@ -1,12 +1,13 @@
 package com.corporativoX.EjercicioApiRest.controllers;
 
 import com.corporativoX.EjercicioApiRest.entities.Student;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/students")
@@ -20,53 +21,53 @@ public class StudentController {
     ));
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Student> getStudents() {
-        return students;
+    public ResponseEntity<List<Student>>  getStudents() {
+        return ResponseEntity.ok(students);
     }
 
     @RequestMapping(value = "/{email}",method = RequestMethod.GET)
-    public Student getStudentByEmail(@PathVariable  String email) {
+    public ResponseEntity<?> getStudentByEmail(@PathVariable  String email) {
         for(Student student : students) {
-            if(Objects.equals(student.getEmail(), email)) {
-                return student;
+            if(student.getEmail().equals(email)) {
+                return ResponseEntity.ok(student);
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with email: " + email + ", not found");
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Student postStudent(@RequestBody Student student){
+    public ResponseEntity<?> postStudent(@RequestBody Student student){
         students.add(student);
-        return student;
+        return ResponseEntity.status(HttpStatus.CREATED).body("Student succesfully created: " + student.getName());
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Student putStudent(@RequestBody Student student){
+    public ResponseEntity<?> putStudent(@RequestBody Student student){
         for(Student s : students){
             if(s.getID() == student.getID()){
                 s.setName(student.getName());
                 s.setEmail(student.getEmail());
                 s.setAge(student.getAge());
                 s.setCourse(student.getCourse());
-                return s;
+                return ResponseEntity.ok("Student succesfully modified: " + student.getName());
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with ID: " + student.getID() + ", not found");
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-    public Student deleteStudent(@PathVariable int id){
+    public ResponseEntity<?> deleteStudent(@PathVariable int id){
         for(Student s : students){
             if(s.getID() == id){
                 students.remove(s);
-                return s;
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Student succesfully deleted: " + s.getName());
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with ID: " + id + ", not found");
     }
 
     @RequestMapping(method = RequestMethod.PATCH)
-    public Student patchStudent(@RequestBody Student student){
+    public ResponseEntity<?> patchStudent(@RequestBody Student student){
         for(Student s: students){
             if(s.getID() == student.getID()){
 
@@ -82,10 +83,10 @@ public class StudentController {
                 if(student.getCourse() != null){
                     s.setCourse(student.getCourse());
                 }
-                return s;
+                return ResponseEntity.ok("Student succesfully modified: " + s.getName());
             }
         }
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with ID: " + student.getID() + ", not found");
     }
 
 }
