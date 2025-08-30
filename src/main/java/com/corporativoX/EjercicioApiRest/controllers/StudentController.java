@@ -4,7 +4,9 @@ import com.corporativoX.EjercicioApiRest.entities.Student;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +40,13 @@ public class StudentController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> postStudent(@RequestBody Student student){
         students.add(student);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Student succesfully created: " + student.getName());
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{email}")
+                .buildAndExpand(student.getEmail())
+                .toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
@@ -49,10 +57,10 @@ public class StudentController {
                 s.setEmail(student.getEmail());
                 s.setAge(student.getAge());
                 s.setCourse(student.getCourse());
-                return ResponseEntity.ok("Student succesfully modified: " + student.getName());
+                return ResponseEntity.noContent().build();
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with ID: " + student.getID() + ", not found");
+        return ResponseEntity.notFound().build();
     }
 
     @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
@@ -60,10 +68,10 @@ public class StudentController {
         for(Student s : students){
             if(s.getID() == id){
                 students.remove(s);
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Student succesfully deleted: " + s.getName());
+                return ResponseEntity.noContent().build();
             }
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student with ID: " + id + ", not found");
+        return ResponseEntity.notFound().build();
     }
 
     @RequestMapping(method = RequestMethod.PATCH)
