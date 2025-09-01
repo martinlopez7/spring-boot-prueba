@@ -49,6 +49,7 @@ public class StudentController {
         return ResponseEntity.created(location).build();
     }
 
+    //When HTTP "PUT" method answers succesfully, the response could be "200 OK" or "204 No Content", depends on project requirements
     @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<?> putStudent(@RequestBody Student student){
         for(Student s : students){
@@ -74,6 +75,7 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
+    //When HTTP "PATCH" method answers succesfully, the response could be "200 OK" or "204 No Content", depends on project requirements
     @RequestMapping(method = RequestMethod.PATCH)
     public ResponseEntity<?> patchStudent(@RequestBody Student student){
         for(Student s: students){
