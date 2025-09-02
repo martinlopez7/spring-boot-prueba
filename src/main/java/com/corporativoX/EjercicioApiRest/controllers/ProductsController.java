@@ -2,7 +2,7 @@ package com.corporativoX.EjercicioApiRest.controllers;
 
 import com.corporativoX.EjercicioApiRest.entities.Product;
 import com.corporativoX.EjercicioApiRest.services.ProductService;
-import com.corporativoX.EjercicioApiRest.services.ProductServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +14,8 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductsController {
 
-    ProductService productsService = new ProductServiceImpl();
+    @Autowired
+    private ProductService productsService;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getProducts() {
