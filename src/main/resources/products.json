@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Keyboard",
+    "price": 99.99,
+    "stock": 15
+  },
+  {
+    "id": 2,
+    "name": "Gaming mouse",
+    "price": 49.99,
+    "stock": 25
+  },
+  {
+    "id": 3,
+    "name": "RTX 2060S",
+    "price": 399.99,
+    "stock": 10
+  },
+  {
+    "id": 4,
+    "name": "Gaming Monitor",
+    "price": 299.99,
+    "stock": 30
+  }
+]
