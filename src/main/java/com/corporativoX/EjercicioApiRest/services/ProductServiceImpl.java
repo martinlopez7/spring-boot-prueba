@@ -1,14 +1,22 @@
 package com.corporativoX.EjercicioApiRest.services;
 
 import com.corporativoX.EjercicioApiRest.entities.Product;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
+@Lazy
+@Service("listResourceService")
 public class ProductServiceImpl implements ProductService {
+
+    /*
+    public ProductServiceImpl() {
+        System.out.println("Iniciando listResourceService");
+    }
+    */
 
     List<Product> products = new ArrayList<>(Arrays.asList(
             new Product(1, "Laptop", 799.99, 10),

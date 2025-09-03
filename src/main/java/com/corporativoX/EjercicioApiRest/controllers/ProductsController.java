@@ -3,6 +3,8 @@ package com.corporativoX.EjercicioApiRest.controllers;
 import com.corporativoX.EjercicioApiRest.entities.Product;
 import com.corporativoX.EjercicioApiRest.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,8 @@ import java.util.List;
 public class ProductsController {
 
     @Autowired
+    @Lazy
+    @Qualifier("listResourceService")
     private ProductService productsService;
 
     @RequestMapping(method = RequestMethod.GET)
